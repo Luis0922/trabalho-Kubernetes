@@ -14,7 +14,7 @@ Trabalho prático da Disciplina de Laboratório de Engenharia de Software do cur
 #### O que é?
 Kubernetes é um sistema de código-aberto desenvolvido pela Google que possibilita a realização de Orquestração de Containers para automação da implementação, a gestão e a escalabilidade de aplicações mantidas dentro de containers.
 
-| ![Arquitetura de Kubernetes](kubernetes-architecture-alura.png) | 
+| ![Arquitetura de Kubernetes](img/kubernetes-architecture-alura.png) | 
 |:--:| 
 | *Arquitetura de Kubernetes - Créditos: Alura* |
 
@@ -61,12 +61,12 @@ Após configuração inicial:
 ### Acessar a aplicação
 <code>minikube service primeiro-deploy</code>
 
-| ![Execução dos comandos no terminal](minikube-1.png) | 
+| ![Execução dos comandos no terminal](img/minikube-1.png) | 
 |:--:| 
 | Execução dos comandos no terminal |
 
 
-| ![Aplicação em funcionamento local](minikube-2.png) | 
+| ![Aplicação em funcionamento local](img/minikube-2.png) | 
 |:--:| 
 | Aplicação em funcionamento local |
 
@@ -74,7 +74,7 @@ Após configuração inicial:
 
 <code>minikube dashboard</code>
 
-| ![Dashboard Kubernetes](minikube-3-dashboard.png) | 
+| ![Dashboard Kubernetes](img/minikube-3-dashboard.png) | 
 |:--:| 
 | Dashboard Kubernetes |
 
