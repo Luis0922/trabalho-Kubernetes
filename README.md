@@ -82,7 +82,8 @@ Após configuração inicial:
 1. Inicia-se criando um diretório denominado "definitions" para acomodar as definições de objetos do Kubernetes, o que é crucial para o gerenciamento da aplicação no cluster.
 2. Desenvolve-se um arquivo YAML chamado php_service.yaml para configurar um serviço no Kubernetes denominado "php". Este serviço age como um ponto de entrada para o PHP-FPM, e sua função é essencialmente rotear o tráfego para a aplicação PHP.
 
-<code>apiVersion: v1
+```yaml
+apiVersion: v1
 kind: Service
 metadata:
   name: php
@@ -94,7 +95,8 @@ spec:
     tier: backend
   ports:
   - protocol: TCP
-    port: 9000</code>
+    port: 9000
+```
     
 3. Utiliza-se o comando kubectl apply para efetivamente implantar o serviço PHP-FPM no cluster Kubernetes.
 4. Para garantir a correta implantação, realiza-se uma verificação executando o comando kubectl get svc, que fornece informações sobre o status do serviço PHP-FPM.
