@@ -81,6 +81,7 @@ Após configuração inicial:
 ### Deploy de uma aplicação em PHP com Kubernetes
 1. Inicia-se criando um diretório denominado "definitions" para acomodar as definições de objetos do Kubernetes, o que é crucial para o gerenciamento da aplicação no cluster.
 2. Desenvolve-se um arquivo YAML chamado php_service.yaml para configurar um serviço no Kubernetes denominado "php". Este serviço age como um ponto de entrada para o PHP-FPM, e sua função é essencialmente rotear o tráfego para a aplicação PHP.
+
 <code>apiVersion: v1
 kind: Service
 metadata:
@@ -94,9 +95,11 @@ spec:
   ports:
   - protocol: TCP
     port: 9000</code>
+    
 3. Utiliza-se o comando kubectl apply para efetivamente implantar o serviço PHP-FPM no cluster Kubernetes.
 4. Para garantir a correta implantação, realiza-se uma verificação executando o comando kubectl get svc, que fornece informações sobre o status do serviço PHP-FPM.
 5. Um segundo arquivo YAML, chamado nginx_service.yaml, é criado para definir outro serviço no Kubernetes denominado "nginx". Esse serviço atua como um ponto de acesso para o servidor Nginx.
+
 <code>apiVersion: v1
 kind: Service
 metadata:
@@ -112,6 +115,7 @@ spec:
     port: 80
   externalIPs:
   - seu_ip_público</code>
+  
 6. Utiliza-se o comando kubectl apply novamente, desta vez para implantar o serviço Nginx no cluster Kubernetes.
 7. Executa-se o comando kubectl get svc mais uma vez para verificar o status do serviço Nginx e obter informações relevantes sobre ele.
 
@@ -120,6 +124,7 @@ Está criado os serviços PHP-FPM e o Nginx.
 Agora iremos fazer um deployment PHP-FPM
 
 1. Arquivo YAML chamado php_deployment.yaml que especifica como os pods do PHP-FPM devem ser criados e mantidos.
+
 <code>apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -159,6 +164,7 @@ spec:
         - "-O"
         - "/code/index.php"
         - https://raw.githubusercontent.com/do-community/php-kubernetes/master/index.php</code>
+        
 2. Definiu o número de réplicas (instâncias) que o Deployment deve manter, neste caso, 1 réplica.
 3. Especificou a imagem do contêiner PHP a ser usada, que é php:7-fpm. Este contêiner será responsável por executar o código PHP de sua aplicação.
 4. Definiu um volume chamado code que representa o código da aplicação. Este volume é associado a um PersistentVolumeClaim (PVC) chamado code. Os containers podem acessar esse volume para ler e gravar arquivos.
@@ -169,6 +175,7 @@ spec:
 Agora iremos fazer um deployment Nginx
 
 1. Arquivo YAML chamado nginx_configMap.yaml para criar um ConfigMap chamado nginx-config. Este ConfigMap contém a configuração do servidor Nginx no formato chave-valor.
+
 <code>apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -181,7 +188,7 @@ data:
       index index.php index.html;
       error_log  /var/log/nginx/error.log;
       access_log /var/log/nginx/access.log;
-      root /code;
+      root /code
       
       location / {
           try_files $uri $uri/ /index.php?$query_string;
@@ -197,9 +204,11 @@ data:
           fastcgi_param PATH_INFO $fastcgi_path_info;
         }
     }</code>
+    
 2. No ConfigMap, você especificou a configuração do Nginx, incluindo diretivas do servidor, logs, raiz do diretório e configuração para lidar com solicitações PHP. Essa configuração será usada pelos pods do Nginx.
 3. Usando o comando kubectl apply, você criou o ConfigMap no cluster Kubernetes, permitindo que ele seja referenciado em outros objetos.
 4. Arquivo YAML chamado nginx_deployment.yaml para criar o Deployment do Nginx. O Deployment é responsável por gerenciar os pods Nginx.
+
 <code>apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -238,6 +247,7 @@ spec:
           mountPath: /code
         - name: config
           mountPath: /etc/nginx/conf.d</code>
+          
 5. No arquivo de Deployment, você definiu a imagem do contêiner Nginx, a porta e o número de réplicas desejadas.
 6. Os pods do Nginx receberam acesso ao volume que armazena o código da aplicação (PVC code) e ao ConfigMap nginx-config.
 7. O ConfigMap foi montado no diretório de configuração do Nginx, permitindo que o Nginx utilize a configuração definida no ConfigMap.
